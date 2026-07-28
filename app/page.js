@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ELEMENTS } from "@/lib/elements";
+import { STEAM_STORE_URL } from "@/lib/links";
 
 export default function Home() {
   const appUrl = process.env.NEXT_PUBLIC_APP_URL || "#";
@@ -66,6 +67,41 @@ export default function Home() {
               <p className="mt-3 text-sm text-white/60">{el.description}</p>
             </div>
           ))}
+        </div>
+      </section>
+
+      {/* Coming to Steam */}
+      <section className="border-t border-white/10 bg-white/[0.02]">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-24 text-center">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#66c0f4" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+            <circle cx="12" cy="12" r="10" />
+            <circle cx="8.5" cy="15.5" r="2" />
+            <path d="M10.2 14 14 10.2" />
+            <circle cx="15.5" cy="8.5" r="2" />
+          </svg>
+          <span className="rounded-full border border-white/15 px-3 py-1 text-xs font-semibold tracking-wide text-white/50">
+            COMING SOON
+          </span>
+          <h2 className="text-3xl font-bold">Focus is heading to Steam</h2>
+          <p className="max-w-xl text-white/60">
+            We're bringing the full Focus experience to Steam — the same eight elements and the
+            same fixed, fair card pool, no different treatment by platform. The free browser
+            version below isn't going anywhere either; Steam is another way in, not a replacement.
+          </p>
+          {STEAM_STORE_URL ? (
+            <a
+              href={STEAM_STORE_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full bg-[#66c0f4] px-8 py-3 text-base font-semibold text-black transition-colors hover:bg-[#8dd3ff]"
+            >
+              View on Steam
+            </a>
+          ) : (
+            <span className="rounded-full border border-white/15 px-8 py-3 text-base font-semibold text-white/40">
+              Steam page coming soon
+            </span>
+          )}
         </div>
       </section>
 
