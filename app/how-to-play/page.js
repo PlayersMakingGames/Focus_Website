@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "How to Play — Focus TCG",
+  title: "How to Play — Focus",
   description:
     "Learn the rules of Focus: turn structure, Units, Skills, Rally cards, and how to win.",
 };
@@ -34,7 +34,7 @@ export default function HowToPlay() {
     <div className="mx-auto w-full max-w-3xl px-6 py-20">
       <h1 className="text-4xl font-extrabold tracking-tight">How to Play</h1>
       <p className="mt-4 text-white/60">
-        Focus is a head-to-head trading card game. Reduce your opponent&rsquo;s
+        Focus is a head-to-head expandable card game. Reduce your opponent&rsquo;s
         Leader to 0 HP before they do the same to you. Matches are best-of-3.
       </p>
 

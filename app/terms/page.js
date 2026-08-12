@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Terms of Service — Focus TCG",
+  title: "Terms of Service — Focus",
   description: "Terms of Service governing your use of Focus.",
 };
 

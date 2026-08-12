@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Privacy Policy — Focus TCG",
+  title: "Privacy Policy — Focus",
   description: "Privacy Policy for Focus, explaining what data we collect and how it's used.",
 };
 

@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
 
 export const metadata = {
-  title: "Leaderboard — Focus TCG",
+  title: "Leaderboard — Focus",
   description: "Top Focus players ranked by wins.",
 };
 

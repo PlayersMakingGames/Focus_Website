@@ -14,9 +14,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Focus TCG — An Elemental Trading Card Game",
+  title: "Focus — An Elemental Expandable Card Game",
   description:
-    "Focus is an elemental trading card game of Units, Skills, and Leaders. Build a deck around one of 8 Elements and outplay your opponent in fast, tactical Bo3 matches.",
+    "Focus is an elemental expandable card game (ECG) of Units, Skills, and Leaders. Build a deck around one of 8 Elements and outplay your opponent in fast, tactical Bo3 matches.",
 };
 
 export default function RootLayout({ children }) {

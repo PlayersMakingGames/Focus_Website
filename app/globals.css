@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #000000;
+  --background: #050810;
   --foreground: #ededed;
+  --focus-cyan: #22d3ee;
+  --focus-magenta: #c86bf2;
+  --focus-navy: #0a0f1c;
+  --focus-panel: #0d1424;
+  --focus-line: rgba(148, 163, 184, 0.14);
 }
 
 @theme inline {
@@ -16,4 +21,39 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), Arial, Helvetica, sans-serif;
+}
+
+/* Faint HUD grid, used behind hero/section backgrounds — restrained on
+   purpose (low opacity lines) so it reads as texture, not as decoration. */
+.bg-hud-grid {
+  background-image:
+    linear-gradient(rgba(34, 211, 238, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34, 211, 238, 0.07) 1px, transparent 1px);
+  background-size: 42px 42px;
+}
+
+/* Angular cut-corner panel, the recurring "HUD" shape used on buttons and
+   framed boxes throughout the reference design — a notch top-left and
+   bottom-right rather than a rounded rect. */
+.hud-cut {
+  clip-path: polygon(
+    14px 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%, 0 14px
+  );
+}
+
+.hud-cut-sm {
+  clip-path: polygon(
+    8px 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%, 0 8px
+  );
+}
+
+/* Restrained magenta atmospheric glow — a soft radial wash, never a hard
+   neon edge, meant to sit behind hero art rather than call attention to
+   itself. */
+.glow-magenta {
+  background: radial-gradient(circle, rgba(200, 107, 242, 0.25), transparent 70%);
+}
+
+.glow-cyan {
+  background: radial-gradient(circle, rgba(34, 211, 238, 0.22), transparent 70%);
 }

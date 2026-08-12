@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { ELEMENTS } from "@/lib/elements";
-import { STEAM_STORE_URL, ALPHA_SIGNUP_URL } from "@/lib/links";
+import { STEAM_STORE_URL, ALPHA_SIGNUP_URL, TRAILER_URL } from "@/lib/links";
 
 export default function Home() {
   return (
@@ -14,7 +14,7 @@ export default function Home() {
             Outplay your opponent.
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/60">
-            Focus is a fast, tactical trading card game. Build a deck around
+            Focus is a fast, tactical expandable card game. Build a deck around
             one of 8 Elements, manage your Focus, and take down your
             opponent&rsquo;s Leader in head-to-head Bo3 matches.
           </p>
@@ -27,6 +27,16 @@ export default function Home() {
             >
               Sign Up for Alpha
             </a>
+            {TRAILER_URL && (
+              <a
+                href={TRAILER_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="rounded-full border border-white/20 px-8 py-3 text-base font-semibold text-white transition-colors hover:border-white/40"
+              >
+                Watch Trailer
+              </a>
+            )}
             <Link
               href="/how-to-play"
               className="rounded-full border border-white/20 px-8 py-3 text-base font-semibold text-white transition-colors hover:border-white/40"
