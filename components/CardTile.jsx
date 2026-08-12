@@ -7,17 +7,22 @@ import { costOf } from "@/lib/cardCosts";
 // and blocks adding (off-element for the chosen Leader, at its copy limit,
 // or no Leader picked yet) — shown, not hidden, so a player can see why a
 // card isn't available rather than wondering where it went.
+//
+// mode="display" (Collection) is non-interactive — no +/- steppers, just an
+// owned-quantity badge, and an unowned card renders grayscale/dim rather
+// than at full color, same "shown, not hidden" logic as disabledReason.
 export default function CardTile({ card, count = 0, disabledReason, onAdd, onRemove, mode = "add" }) {
   const cost = costOf(card.id);
+  const unowned = mode === "display" && count === 0;
 
   return (
-    <div className={`relative ${disabledReason ? "opacity-40" : ""}`}>
+    <div className={`relative ${disabledReason ? "opacity-40" : ""} ${unowned ? "opacity-35 grayscale" : ""}`}>
       <button
         type="button"
-        disabled={!!disabledReason}
+        disabled={!!disabledReason || mode === "display"}
         onClick={() => onAdd?.(card)}
         title={disabledReason || card.name}
-        className="block w-full overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] transition-colors hover:border-cyan-400/40 disabled:cursor-not-allowed disabled:hover:border-white/10"
+        className="block w-full overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] transition-colors hover:border-cyan-400/40 disabled:cursor-default disabled:hover:border-white/10"
       >
         <img
           src={cardImageUrl(card.id)}
@@ -46,6 +51,12 @@ export default function CardTile({ card, count = 0, disabledReason, onAdd, onRem
             +
           </button>
         </div>
+      )}
+
+      {mode === "display" && (
+        <span className={`absolute right-1.5 top-1.5 rounded-full bg-black/80 px-1.5 py-0.5 text-xs font-semibold ${count > 0 ? "text-cyan-300" : "text-white/40"}`}>
+          {count > 0 ? `×${count}` : "—"}
+        </span>
       )}
 
       {cost !== null && (
