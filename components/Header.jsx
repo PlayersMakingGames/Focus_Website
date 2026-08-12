@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { ALPHA_SIGNUP_URL, DISCORD_URL } from "@/lib/links";
+import { useAuth } from "@/lib/AuthContext";
 
 // Each item is either a direct link ({ href, label }) or a dropdown group
 // ({ label, items: [{ href, label, external? }] }). Only real destinations
@@ -88,6 +89,8 @@ function NavDropdown({ group }) {
 }
 
 export default function Header() {
+  const { user } = useAuth();
+
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black/85 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -101,9 +104,10 @@ export default function Header() {
           ))}
           <Link
             href="/account"
-            className="py-2 text-sm font-medium tracking-wide text-white/70 transition-colors hover:text-white"
+            className="flex items-center gap-1.5 py-2 text-sm font-medium tracking-wide text-white/70 transition-colors hover:text-white"
           >
-            ACCOUNT
+            {user && <span className="h-1.5 w-1.5 rounded-full bg-cyan-400" />}
+            {user ? user.email.split("@")[0].toUpperCase() : "ACCOUNT"}
           </Link>
         </nav>
 

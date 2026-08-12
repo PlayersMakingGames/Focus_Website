@@ -1,17 +1,22 @@
-import ComingSoonPanel from "@/components/ComingSoonPanel";
+import { Suspense } from "react";
+import DeckBuilderView from "@/components/DeckBuilderView";
 
 export const metadata = {
   title: "Deck Builder — Focus",
-  description: "Build a legal Focus deck from the full card pool — coming soon.",
+  description: "Build a legal Focus deck from the full card pool.",
 };
 
 export default function DeckBuilder() {
   return (
-    <ComingSoonPanel
-      eyebrow="Decks / Deck Builder"
-      title="Deck Builder"
-      description="Pick a Leader, filter the full card pool by Element, type, and cost, and build toward a legal 36-card deck with live validation — the same rules Focus Online itself checks when you queue for a ranked match."
-      needs="Sign-in (Focus's card database is only readable by signed-in accounts, matching how Focus Online itself works) and the full card catalog wired up on the website."
-    />
+    <div className="mx-auto w-full max-w-6xl px-6 py-12">
+      <h1 className="text-3xl font-extrabold tracking-tight">Deck Builder</h1>
+      <p className="mt-2 text-sm text-white/60">
+        Pick a Leader, build a legal 36-card deck, and save it to your Focus
+        account — the same deck shows up in Focus Online.
+      </p>
+      <Suspense fallback={<p className="mt-8 text-sm text-white/50">Loading…</p>}>
+        <DeckBuilderView />
+      </Suspense>
+    </div>
   );
 }
