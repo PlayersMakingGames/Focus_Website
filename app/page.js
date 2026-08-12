@@ -1,10 +1,8 @@
 import Link from "next/link";
 import { ELEMENTS } from "@/lib/elements";
-import { STEAM_STORE_URL } from "@/lib/links";
+import { STEAM_STORE_URL, ALPHA_SIGNUP_URL } from "@/lib/links";
 
 export default function Home() {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "#";
-
   return (
     <div className="flex flex-col">
       {/* Hero */}
@@ -22,10 +20,12 @@ export default function Home() {
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
             <a
-              href={appUrl}
+              href={ALPHA_SIGNUP_URL}
+              target="_blank"
+              rel="noreferrer"
               className="rounded-full bg-cyan-400 px-8 py-3 text-base font-semibold text-black transition-colors hover:bg-cyan-300"
             >
-              Play Now
+              Sign Up for Alpha
             </a>
             <Link
               href="/how-to-play"
@@ -110,14 +110,17 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-20 text-center">
           <h2 className="text-3xl font-bold">Ready to duel?</h2>
           <p className="max-w-md text-white/60">
-            Jump into the browser client, claim your two free starter
-            Elements, and challenge a friend with a room code.
+            Focus is in alpha — sign up and we'll get you into the browser
+            client, where you can claim your two free starter Elements and
+            challenge a friend with a room code.
           </p>
           <a
-            href={appUrl}
+            href={ALPHA_SIGNUP_URL}
+            target="_blank"
+            rel="noreferrer"
             className="rounded-full bg-cyan-400 px-8 py-3 text-base font-semibold text-black transition-colors hover:bg-cyan-300"
           >
-            Play Focus in Your Browser
+            Sign Up for Alpha
           </a>
         </div>
       </section>

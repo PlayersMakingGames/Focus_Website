@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { ALPHA_SIGNUP_URL } from "@/lib/links";
 
 const NAV_LINKS = [
   { href: "/how-to-play", label: "How to Play" },
@@ -7,8 +8,6 @@ const NAV_LINKS = [
 ];
 
 export default function Header() {
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "#";
-
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-black/80 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
@@ -26,10 +25,12 @@ export default function Header() {
         </nav>
 
         <a
-          href={appUrl}
+          href={ALPHA_SIGNUP_URL}
+          target="_blank"
+          rel="noreferrer"
           className="rounded-full bg-cyan-400 px-5 py-2 text-sm font-semibold text-black transition-colors hover:bg-cyan-300"
         >
-          Play Now
+          Sign Up for Alpha
         </a>
       </div>
     </header>
