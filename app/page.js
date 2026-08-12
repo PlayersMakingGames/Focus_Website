@@ -1,21 +1,12 @@
 import Link from "next/link";
-import { ELEMENTS } from "@/lib/elements";
 import { cardImageUrl } from "@/lib/cardImage";
 import { STEAM_STORE_URL, ALPHA_SIGNUP_URL, TRAILER_URL, DISCORD_URL } from "@/lib/links";
 import { supabase } from "@/lib/supabaseClient";
 
 export const revalidate = 300;
 
-// The Elements actually live in the alpha — Ice, Magnetic and Black Flame
-// are built but held back (CLAUDE.md, VITE_RELEASED_ELEMENTS,
-// public.element_releases). Hardcoded rather than queried: element_releases
-// is RLS-locked `to authenticated` (FocusSim/supabase/released-elements.sql),
-// so an anonymous visitor to this public page can't read it server-side the
-// way the signed-in Deck Builder does (lib/useReleasedElements.js). Update
-// by hand alongside HERO_LEADER_IDS below if/when a held-back Element opens.
-const RELEASED_ELEMENT_KEYS = new Set(["Fire", "Earth", "Lightning", "Water", "Wind"]);
-
-// The released Leaders' card ids, for the hero's card fan.
+// The released Leaders' card ids, for the hero's card fan (Ice, Magnetic
+// and Black Flame stay out — held back for the alpha, CLAUDE.md).
 const HERO_LEADER_IDS = ["FB1-21", "FB1-55", "FB1-43", "FB1-99", "FB1-106"];
 
 function newsBadge(kind) {
@@ -158,37 +149,6 @@ export default async function Home() {
             >
               Learn More →
             </Link>
-          </div>
-        </div>
-      </section>
-
-      {/* Elements */}
-      <section className="border-t border-white/10 bg-white/[0.02] px-6 py-24">
-        <div className="mx-auto w-full max-w-6xl">
-          <div className="mb-12 text-center">
-            <h2 className="text-3xl font-bold">Choose Your Element</h2>
-            <p className="mt-3 text-white/60">
-              5 Elements are live in the alpha, each with its own identity.
-              3 hybrid Elements are built and on the way.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {ELEMENTS.filter((el) => RELEASED_ELEMENT_KEYS.has(el.key)).map((el) => (
-              <div
-                key={el.key}
-                className="hud-cut-sm border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-white/25"
-              >
-                <div className="flex items-center gap-3">
-                  <span
-                    className="h-3 w-3 rounded-full"
-                    style={{ backgroundColor: el.color }}
-                  />
-                  <h3 className="text-lg font-semibold">{el.label}</h3>
-                </div>
-                <p className="mt-3 text-sm text-white/60">{el.description}</p>
-              </div>
-            ))}
           </div>
         </div>
       </section>
