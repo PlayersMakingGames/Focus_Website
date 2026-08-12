@@ -41,6 +41,14 @@ export default function DeckBuilderView() {
   const [leader, setLeader] = useState(null);
   const [counts, setCounts] = useState({});
   const [deckName, setDeckName] = useState("");
+  // The name this deck actually exists under in player_decks right now —
+  // null until the first successful save. Compared against deckName at
+  // save time to tell "editing an existing deck" from "renaming it": those
+  // need different handling (see handleSave), and this has to be its own
+  // piece of state rather than re-derived from the ?edit= URL param, since
+  // that param doesn't change after a rename — comparing against it again
+  // on the NEXT save would keep firing the rename confirmation forever.
+  const [savedAsName, setSavedAsName] = useState(null);
   const [filters, setFilters] = useState({
     elements: new Set(), types: new Set(), costs: new Set(), search: "", ownedOnly: false,
   });
@@ -55,6 +63,7 @@ export default function DeckBuilderView() {
     setLeader(existing.leader || null);
     setCounts(existing.counts || {});
     setDeckName(editName);
+    setSavedAsName(editName);
     loadedEditRef.current = editName;
   }, [editName, decks]);
 
@@ -71,6 +80,7 @@ export default function DeckBuilderView() {
       setLeader(shared.leader || null);
       setCounts(shared.counts || {});
       setDeckName("");
+      setSavedAsName(null);
     });
   }, [fromId]);
 
@@ -116,10 +126,16 @@ export default function DeckBuilderView() {
   }
 
   async function handleSave() {
+    const trimmed = deckName.trim();
+    const isRename = !!savedAsName && trimmed !== savedAsName;
+    if (isRename && !window.confirm(`Rename "${savedAsName}" to "${trimmed}"? This renames the existing deck — it won't create a second copy.`)) {
+      return;
+    }
     setSaving(true);
-    const { error } = await saveDeck(deckName.trim(), { leader, counts });
+    const { error } = await saveDeck(trimmed, { leader, counts }, isRename ? savedAsName : undefined);
     setSaving(false);
-    setSaveMessage(error ? `Couldn't save: ${error}` : "Saved.");
+    if (!error) setSavedAsName(trimmed);
+    setSaveMessage(error ? `Couldn't save: ${error}` : isRename ? "Renamed and saved." : "Saved.");
   }
 
   function handleImport(deck) {

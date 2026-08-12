@@ -19,10 +19,16 @@ export default function DeckCard({ name, deck, cardsById, onDelete, publishedId,
   }
 
   async function handleUnpublish() {
+    if (!window.confirm(`Unpublish "${name}"? Its Community Decks link will stop working for anyone who has it.`)) return;
     setBusy(true);
     await onUnpublish(name);
     setBusy(false);
     setMessage("");
+  }
+
+  function handleDelete() {
+    if (!window.confirm(`Delete "${name}"? This can't be undone.`)) return;
+    onDelete(name);
   }
 
   async function handleCopyLink() {
@@ -69,7 +75,7 @@ export default function DeckCard({ name, deck, cardsById, onDelete, publishedId,
             {busy ? "Publishing…" : "Publish"}
           </button>
         )}
-        <button type="button" onClick={() => onDelete(name)} className="text-white/40 hover:text-red-400">
+        <button type="button" onClick={handleDelete} className="text-white/40 hover:text-red-400">
           Delete
         </button>
       </div>
