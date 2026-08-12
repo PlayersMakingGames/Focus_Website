@@ -176,9 +176,9 @@ export default async function Home() {
           </span>
           <h2 className="text-3xl font-bold">Focus is heading to Steam</h2>
           <p className="max-w-xl text-white/60">
-            We're bringing the full Focus experience to Steam — the same eight elements and the
-            same fixed, fair card pool, no different treatment by platform. The free browser
-            version below isn't going anywhere either; Steam is another way in, not a replacement.
+            We're bringing the full Focus experience to Steam — the same fixed, fair card pool,
+            no different treatment by platform. The free browser version below isn't going
+            anywhere either; Steam is another way in, not a replacement.
           </p>
           {STEAM_STORE_URL ? (
             <a
