@@ -43,6 +43,7 @@ const NAV_GROUPS = [
   {
     label: "Community",
     items: [
+      { href: "/news", label: "News" },
       { href: "/leaderboard", label: "Leaderboard" },
       { href: "/decks/community", label: "Community Decks" },
       { href: DISCORD_URL, label: "Discord", external: true },

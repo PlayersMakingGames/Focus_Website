@@ -25,7 +25,7 @@ export default async function Home() {
   // PUBLIC, not `to authenticated`). Real posts, not invented marketing copy.
   const { data: newsPosts } = await supabase
     .from("news_posts")
-    .select("kind, title, published_at")
+    .select("id, kind, title, published_at")
     .not("published_at", "is", null)
     .lte("published_at", new Date().toISOString())
     .order("pinned", { ascending: false })
@@ -78,22 +78,31 @@ export default async function Home() {
             </Link>
           </div>
 
-          {/* Real card art — the 5 released Leaders, fanned */}
-          <div className="mt-16 flex justify-center pb-4">
+          {/* Real card art — the 5 released Leaders, fanned. Rotation/offset
+              live on the outer wrapper (inline style, per-card and static);
+              the hover "pop" lives on the inner img via group-hover, so it
+              composes with the outer transform instead of fighting it. z-index
+              is a class (z-[var(--z)]), not inline style, specifically so
+              hover:z-50 is able to win over it on hover. */}
+          <div className="mt-16 flex justify-center pb-6">
             {HERO_LEADER_IDS.map((id, i) => {
               const offset = i - (HERO_LEADER_IDS.length - 1) / 2;
               return (
-                <img
+                <div
                   key={id}
-                  src={cardImageUrl(id)}
-                  alt=""
-                  className="w-24 rounded-lg border border-white/10 shadow-2xl shadow-black/60 sm:w-36"
+                  className="group relative z-[var(--z)] hover:z-50"
                   style={{
                     transform: `rotate(${offset * 8}deg) translateY(${Math.abs(offset) * 16}px)`,
                     marginLeft: i === 0 ? 0 : "-2rem",
-                    zIndex: 10 - Math.abs(offset),
+                    "--z": 10 - Math.abs(offset),
                   }}
-                />
+                >
+                  <img
+                    src={cardImageUrl(id)}
+                    alt=""
+                    className="w-24 rounded-lg border border-white/10 shadow-2xl shadow-black/60 transition-transform duration-200 ease-out group-hover:-translate-y-4 group-hover:scale-125 group-hover:border-cyan-400/60 group-hover:shadow-cyan-400/30 sm:w-36"
+                  />
+                </div>
               );
             })}
           </div>
@@ -193,13 +202,19 @@ export default async function Home() {
         <div className="mx-auto max-w-6xl px-6 py-20">
           <div className="grid gap-10 lg:grid-cols-[2fr_1fr]">
             <div>
-              <h2 className="text-xl font-bold">Latest News</h2>
+              <div className="flex items-baseline justify-between">
+                <h2 className="text-xl font-bold">Latest News</h2>
+                <Link href="/news" className="text-xs font-semibold text-cyan-300 hover:underline">
+                  View All →
+                </Link>
+              </div>
               {newsPosts && newsPosts.length > 0 ? (
                 <div className="mt-6 grid gap-4 sm:grid-cols-3">
                   {newsPosts.map((post) => (
-                    <div
-                      key={post.title + post.published_at}
-                      className="hud-cut-sm border border-white/10 bg-white/[0.03] p-5"
+                    <Link
+                      key={post.id}
+                      href={`/news#${post.id}`}
+                      className="hud-cut-sm block border border-white/10 bg-white/[0.03] p-5 transition-colors hover:border-cyan-400/40"
                     >
                       <span className="text-[10px] font-semibold uppercase tracking-widest text-cyan-300">
                         {newsBadge(post.kind)}
@@ -210,7 +225,7 @@ export default async function Home() {
                       <p className="mt-3 text-xs text-white/40">
                         {formatNewsDate(post.published_at)}
                       </p>
-                    </div>
+                    </Link>
                   ))}
                 </div>
               ) : (

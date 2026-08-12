@@ -12,6 +12,7 @@ export default function Footer() {
             <Link href="/decks" className="hover:text-white/70">Decks</Link>
             <Link href="/collection" className="hover:text-white/70">Collection</Link>
             <Link href="/shop" className="hover:text-white/70">Shop</Link>
+            <Link href="/news" className="hover:text-white/70">News</Link>
             <Link href="/leaderboard" className="hover:text-white/70">Leaderboard</Link>
             <a href={DISCORD_URL} target="_blank" rel="noreferrer" className="hover:text-white/70">Discord</a>
           </div>
