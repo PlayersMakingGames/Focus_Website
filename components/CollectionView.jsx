@@ -7,8 +7,52 @@ import { useCardCatalog } from "@/lib/useCardCatalog";
 import { useCollection } from "@/lib/useCollection";
 import { useReleasedElements } from "@/lib/useReleasedElements";
 import { ELEMENTS } from "@/lib/elements";
+import { cardImageUrl } from "@/lib/cardImage";
 import CardTile from "@/components/CardTile";
 import CardInspectModal from "@/components/CardInspectModal";
+
+// The Leader row's tile has two independent actions that can't share one
+// click target: the tile itself toggles that Element's section, and the
+// small corner button opens the inspect modal. They're sibling <button>s
+// (not nested — nested interactive elements are invalid HTML) inside a
+// shared relative wrapper, so each keeps native keyboard support and a
+// click on one never also fires the other.
+function LeaderRowTile({ leader, count, isOpen, onToggle, onInspect }) {
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={onToggle}
+        title={`${leader.name} — click to ${isOpen ? "collapse" : "expand"}`}
+        className={`block w-full overflow-hidden rounded-lg border transition-colors ${
+          isOpen ? "border-cyan-400/60" : "border-white/10 hover:border-cyan-400/40"
+        }`}
+      >
+        <img
+          src={cardImageUrl(leader.id)}
+          alt={leader.name}
+          loading="lazy"
+          className="aspect-[5/7] w-full object-cover"
+        />
+      </button>
+      <span className={`pointer-events-none absolute right-1.5 top-1.5 rounded-full bg-black/80 px-1.5 py-0.5 text-xs font-semibold ${count > 0 ? "text-cyan-300" : "text-white/40"}`}>
+        {count > 0 ? `×${count}` : "—"}
+      </span>
+      <button
+        type="button"
+        onClick={(e) => { e.stopPropagation(); onInspect(); }}
+        title={`Inspect ${leader.name}`}
+        aria-label={`Inspect ${leader.name}`}
+        className="absolute left-1.5 top-1.5 rounded-full bg-black/80 p-1 text-white/60 transition-colors hover:text-cyan-300"
+      >
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5">
+          <circle cx="11" cy="11" r="7" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+      </button>
+    </div>
+  );
+}
 
 export default function CollectionView() {
   const { user, loading: authLoading } = useAuth();
@@ -16,6 +60,15 @@ export default function CollectionView() {
   const { owned, loading: ownedLoading } = useCollection();
   const { released: releasedElements, loading: releasedLoading } = useReleasedElements();
   const [inspecting, setInspecting] = useState(null);
+  // Every Element starts collapsed; clicking its Leader tile toggles it —
+  // that's the only way in, by design (see the grid below).
+  const [expanded, setExpanded] = useState(() => new Set());
+  const toggleElement = (key) =>
+    setExpanded((prev) => {
+      const next = new Set(prev);
+      next.has(key) ? next.delete(key) : next.add(key);
+      return next;
+    });
 
   // Grouped by Element, released only — an unreleased card showing up here
   // (even just as a name/art, with or without ownership) is exactly the
@@ -68,18 +121,46 @@ export default function CollectionView() {
           <p className="mt-6 text-sm text-white/50">Loading…</p>
         ) : (
           <div className="mt-6 space-y-8">
-            {ELEMENTS.filter((el) => releasedElements.has(el.key)).map((el) => {
+            {/* Every Leader, side by side — the index into each Element's
+                section below. Opening one inserts its section beneath this
+                row, pushing whatever already follows (other open sections,
+                Physical Collection) further down; it never reflows the row
+                itself. */}
+            <div className="grid grid-cols-4 gap-3 sm:grid-cols-6 lg:grid-cols-8">
+              {ELEMENTS.filter((el) => releasedElements.has(el.key)).map((el) => {
+                const leader = (byElement[el.key] || []).find((c) => c.type === "leader");
+                if (!leader) return null;
+                return (
+                  <LeaderRowTile
+                    key={el.key}
+                    leader={leader}
+                    count={owned[leader.id] || 0}
+                    isOpen={expanded.has(el.key)}
+                    onToggle={() => toggleElement(el.key)}
+                    onInspect={() => setInspecting(leader)}
+                  />
+                );
+              })}
+            </div>
+
+            {ELEMENTS.filter((el) => releasedElements.has(el.key) && expanded.has(el.key)).map((el) => {
               const cards = byElement[el.key] || [];
               const ownedCount = cards.filter((c) => (owned[c.id] || 0) > 0).length;
+              const rest = cards.filter((c) => c.type !== "leader");
               return (
                 <div key={el.key}>
-                  <div className="flex items-center gap-2">
+                  <button
+                    type="button"
+                    onClick={() => toggleElement(el.key)}
+                    title={`${el.label} — click to collapse`}
+                    className="flex items-center gap-2 text-left"
+                  >
                     <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: el.color }} />
                     <h3 className="text-sm font-semibold text-white/80">{el.label}</h3>
-                    <span className="text-xs text-white/40">{ownedCount} / {cards.length}</span>
-                  </div>
+                    <span className="text-xs text-white/40">{ownedCount} / {cards.length} ▾</span>
+                  </button>
                   <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-6 lg:grid-cols-8">
-                    {cards.map((card) => (
+                    {rest.map((card) => (
                       <CardTile
                         key={card.id}
                         card={card}
