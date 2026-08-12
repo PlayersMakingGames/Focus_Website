@@ -6,16 +6,16 @@ import { supabase } from "@/lib/supabaseClient";
 
 export const revalidate = 300;
 
-// The 5 released Leaders' card ids, for the hero's card fan (Earth,
-// Lightning, Fire, Water, Wind). Hand-picked rather than queried live:
-// public.element_releases is RLS-locked `to authenticated`
-// (FocusSim/supabase/released-elements.sql), so an anonymous visitor to
-// this public page can't read it server-side the way the signed-in Deck
-// Builder does (lib/useReleasedElements.js). That's fine here — this page
-// already lists all 8 Elements' names/flavor below with no gating at all,
-// since naming an Element isn't the leak class release-elements.sql
-// protects against (that's about cards/mechanics). Update by hand if/when
-// a held-back Element opens.
+// The Elements actually live in the alpha — Ice, Magnetic and Black Flame
+// are built but held back (CLAUDE.md, VITE_RELEASED_ELEMENTS,
+// public.element_releases). Hardcoded rather than queried: element_releases
+// is RLS-locked `to authenticated` (FocusSim/supabase/released-elements.sql),
+// so an anonymous visitor to this public page can't read it server-side the
+// way the signed-in Deck Builder does (lib/useReleasedElements.js). Update
+// by hand alongside HERO_LEADER_IDS below if/when a held-back Element opens.
+const RELEASED_ELEMENT_KEYS = new Set(["Fire", "Earth", "Lightning", "Water", "Wind"]);
+
+// The released Leaders' card ids, for the hero's card fan.
 const HERO_LEADER_IDS = ["FB1-21", "FB1-55", "FB1-43", "FB1-99", "FB1-106"];
 
 function newsBadge(kind) {
@@ -57,7 +57,7 @@ export default async function Home() {
           </h1>
           <p className="mt-6 max-w-xl text-lg text-white/60">
             Focus is a fast, tactical expandable card game. Build a deck
-            around one of 8 Elements, manage your Focus, and take down your
+            around one of 5 Elements, manage your Focus, and take down your
             opponent&rsquo;s Leader in head-to-head Bo3 matches.
           </p>
           <div className="mt-10 flex flex-col gap-4 sm:flex-row">
@@ -168,12 +168,13 @@ export default async function Home() {
           <div className="mb-12 text-center">
             <h2 className="text-3xl font-bold">Choose Your Element</h2>
             <p className="mt-3 text-white/60">
-              5 mono Elements, and 3 hybrids built from combining them.
+              5 Elements are live in the alpha, each with its own identity.
+              3 hybrid Elements are built and on the way.
             </p>
           </div>
 
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {ELEMENTS.map((el) => (
+            {ELEMENTS.filter((el) => RELEASED_ELEMENT_KEYS.has(el.key)).map((el) => (
               <div
                 key={el.key}
                 className="hud-cut-sm border border-white/10 bg-white/[0.03] p-6 transition-colors hover:border-white/25"
@@ -184,11 +185,6 @@ export default async function Home() {
                     style={{ backgroundColor: el.color }}
                   />
                   <h3 className="text-lg font-semibold">{el.label}</h3>
-                  {el.tier === "hybrid" && (
-                    <span className="ml-auto rounded-full border border-white/15 px-2 py-0.5 text-xs text-white/50">
-                      Hybrid
-                    </span>
-                  )}
                 </div>
                 <p className="mt-3 text-sm text-white/60">{el.description}</p>
               </div>
