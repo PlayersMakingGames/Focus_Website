@@ -5,13 +5,16 @@ import { ELEMENTS } from "@/lib/elements";
 const TYPES = ["unit", "skill", "rally"];
 const COSTS = [0, 1, 2, 3, 4, 5];
 
-export default function CardFilters({ filters, setFilters, hasCollection }) {
+export default function CardFilters({ filters, setFilters, hasCollection, releasedElements }) {
   const set = (key, value) => setFilters((f) => ({ ...f, [key]: value }));
   const toggleInSet = (key, value) => setFilters((f) => {
     const next = new Set(f[key]);
     next.has(value) ? next.delete(value) : next.add(value);
     return { ...f, [key]: next };
   });
+  // Held-back elements (Ice/Magnetic/Black Flame) don't get a chip at all —
+  // a filter for content you can't select behind it is worse than no chip.
+  const visibleElements = ELEMENTS.filter((el) => releasedElements.has(el.key));
 
   return (
     <div className="space-y-6">
@@ -28,7 +31,7 @@ export default function CardFilters({ filters, setFilters, hasCollection }) {
       <div>
         <div className="text-xs font-semibold uppercase tracking-wide text-white/40">Element</div>
         <div className="mt-2 flex flex-wrap gap-1.5">
-          {ELEMENTS.map((el) => (
+          {visibleElements.map((el) => (
             <button
               key={el.key}
               type="button"

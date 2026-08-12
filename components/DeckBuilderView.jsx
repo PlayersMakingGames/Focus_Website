@@ -7,6 +7,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { useCardCatalog } from "@/lib/useCardCatalog";
 import { useCollection } from "@/lib/useCollection";
 import { usePlayerDecks } from "@/lib/usePlayerDecks";
+import { useReleasedElements } from "@/lib/useReleasedElements";
 import { cardElements, cardLegalForLeader, legalityIssues } from "@/lib/cardRules";
 import { costOf } from "@/lib/cardCosts";
 import CardFilters from "@/components/CardFilters";
@@ -31,6 +32,7 @@ export default function DeckBuilderView() {
   const { cardsById, loading: catalogLoading, error: catalogError } = useCardCatalog();
   const { owned } = useCollection();
   const { decks, saveDeck } = usePlayerDecks();
+  const { released: releasedElements } = useReleasedElements();
   const searchParams = useSearchParams();
   const editName = searchParams.get("edit");
 
@@ -55,21 +57,30 @@ export default function DeckBuilderView() {
   }, [editName, decks]);
 
   const leaderCard = leader ? cardsById[leader] : null;
+  // Ice/Magnetic/Black Flame are built but held back for the alpha
+  // (CLAUDE.md) — public.cards itself carries no release filter (that's
+  // FocusSim's own client's job via VITE_RELEASED_ELEMENTS), so this site
+  // has to apply the same gate itself using the live element_releases
+  // table, or it shows held-back content to any signed-in visitor.
   const leaders = useMemo(
-    () => Object.values(cardsById).filter((c) => c.type === "leader").sort((a, b) => a.name.localeCompare(b.name)),
-    [cardsById]
+    () => Object.values(cardsById)
+      .filter((c) => c.type === "leader")
+      .filter((c) => releasedElements.has(c.element))
+      .sort((a, b) => a.name.localeCompare(b.name)),
+    [cardsById, releasedElements]
   );
 
   const filteredCards = useMemo(() => {
     return Object.values(cardsById)
       .filter((c) => c.type !== "leader")
+      .filter((c) => releasedElements.has(c.element))
       .filter((c) => filters.elements.size === 0 || cardElements(c).some((el) => filters.elements.has(el)))
       .filter((c) => filters.types.size === 0 || filters.types.has(c.type))
       .filter((c) => matchesCost(c.id, filters.costs))
       .filter((c) => !filters.search || c.name.toLowerCase().includes(filters.search.toLowerCase()))
       .filter((c) => !filters.ownedOnly || (owned[c.id] || 0) > 0)
       .sort((a, b) => (costOf(a.id) ?? 0) - (costOf(b.id) ?? 0) || a.name.localeCompare(b.name));
-  }, [cardsById, filters, owned]);
+  }, [cardsById, filters, owned, releasedElements]);
 
   function addCard(card) {
     setCounts((prev) => ({ ...prev, [card.id]: (prev[card.id] || 0) + 1 }));
@@ -130,12 +141,17 @@ export default function DeckBuilderView() {
   return (
     <div className="mt-8">
       <div className="mb-6">
-        <ImportDeckPanel cardsById={cardsById} onImport={handleImport} />
+        <ImportDeckPanel cardsById={cardsById} releasedElements={releasedElements} onImport={handleImport} />
       </div>
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-[220px_1fr_320px]">
       <aside>
-        <CardFilters filters={filters} setFilters={setFilters} hasCollection={Object.keys(owned).length > 0} />
+        <CardFilters
+          filters={filters}
+          setFilters={setFilters}
+          hasCollection={Object.keys(owned).length > 0}
+          releasedElements={releasedElements}
+        />
       </aside>
 
       <div>

@@ -3,13 +3,13 @@
 import { useState } from "react";
 import { decodeDeck } from "@/lib/deckCode";
 
-export default function ImportDeckPanel({ cardsById, onImport }) {
+export default function ImportDeckPanel({ cardsById, releasedElements, onImport }) {
   const [open, setOpen] = useState(false);
   const [code, setCode] = useState("");
   const [error, setError] = useState("");
 
   function handleImport() {
-    const { deck, error: err } = decodeDeck(code, cardsById);
+    const { deck, error: err } = decodeDeck(code, cardsById, releasedElements);
     if (err) { setError(err); return; }
     onImport(deck);
     setCode("");
