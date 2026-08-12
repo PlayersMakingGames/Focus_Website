@@ -1,19 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useAuth } from "@/lib/AuthContext";
 import { useCardCatalog } from "@/lib/useCardCatalog";
 import { useCollection } from "@/lib/useCollection";
 import { useReleasedElements } from "@/lib/useReleasedElements";
 import { ELEMENTS } from "@/lib/elements";
 import CardTile from "@/components/CardTile";
+import CardInspectModal from "@/components/CardInspectModal";
 
 export default function CollectionView() {
   const { user, loading: authLoading } = useAuth();
   const { cardsById, loading: catalogLoading } = useCardCatalog();
   const { owned, loading: ownedLoading } = useCollection();
   const { released: releasedElements, loading: releasedLoading } = useReleasedElements();
+  const [inspecting, setInspecting] = useState(null);
 
   // Grouped by Element, released only — an unreleased card showing up here
   // (even just as a name/art, with or without ownership) is exactly the
@@ -78,7 +80,13 @@ export default function CollectionView() {
                   </div>
                   <div className="mt-3 grid grid-cols-4 gap-3 sm:grid-cols-6 lg:grid-cols-8">
                     {cards.map((card) => (
-                      <CardTile key={card.id} card={card} count={owned[card.id] || 0} mode="display" />
+                      <CardTile
+                        key={card.id}
+                        card={card}
+                        count={owned[card.id] || 0}
+                        mode="display"
+                        onInspect={setInspecting}
+                      />
                     ))}
                   </div>
                 </div>
@@ -102,6 +110,8 @@ export default function CollectionView() {
           </p>
         </div>
       </section>
+
+      <CardInspectModal card={inspecting} onClose={() => setInspecting(null)} />
     </div>
   );
 }

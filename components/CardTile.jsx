@@ -8,10 +8,11 @@ import { costOf } from "@/lib/cardCosts";
 // or no Leader picked yet) — shown, not hidden, so a player can see why a
 // card isn't available rather than wondering where it went.
 //
-// mode="display" (Collection) is non-interactive — no +/- steppers, just an
-// owned-quantity badge, and an unowned card renders grayscale/dim rather
-// than at full color, same "shown, not hidden" logic as disabledReason.
-export default function CardTile({ card, count = 0, disabledReason, onAdd, onRemove, mode = "add" }) {
+// mode="display" (Collection) has no +/- steppers — clicking it inspects
+// the card instead (see CardInspectModal), same as FocusSim's own
+// click-to-enlarge. An unowned card renders grayscale/dim rather than at
+// full color, same "shown, not hidden" logic as disabledReason.
+export default function CardTile({ card, count = 0, disabledReason, onAdd, onRemove, onInspect, mode = "add" }) {
   const cost = costOf(card.id);
   const unowned = mode === "display" && count === 0;
 
@@ -19,10 +20,10 @@ export default function CardTile({ card, count = 0, disabledReason, onAdd, onRem
     <div className={`relative ${disabledReason ? "opacity-40" : ""} ${unowned ? "opacity-35 grayscale" : ""}`}>
       <button
         type="button"
-        disabled={!!disabledReason || mode === "display"}
-        onClick={() => onAdd?.(card)}
-        title={disabledReason || card.name}
-        className="block w-full overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] transition-colors hover:border-cyan-400/40 disabled:cursor-default disabled:hover:border-white/10"
+        disabled={mode === "display" ? false : !!disabledReason}
+        onClick={() => (mode === "display" ? onInspect?.(card) : onAdd?.(card))}
+        title={mode === "display" ? `${card.name} — click to enlarge` : disabledReason || card.name}
+        className={`block w-full overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] transition-colors hover:border-cyan-400/40 disabled:cursor-default disabled:hover:border-white/10 ${mode === "display" ? "cursor-zoom-in" : ""}`}
       >
         <img
           src={cardImageUrl(card.id)}
