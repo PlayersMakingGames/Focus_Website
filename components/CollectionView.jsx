@@ -61,14 +61,12 @@ export default function CollectionView() {
   const { released: releasedElements, loading: releasedLoading } = useReleasedElements();
   const [inspecting, setInspecting] = useState(null);
   // Every Element starts collapsed; clicking its Leader tile toggles it —
-  // that's the only way in, by design (see the grid below).
-  const [expanded, setExpanded] = useState(() => new Set());
+  // that's the only way in, by design (see the grid below). Accordion, not
+  // a multi-select set: only one Element's section is ever open, so opening
+  // a new one collapses whichever was already open.
+  const [expandedElement, setExpandedElement] = useState(null);
   const toggleElement = (key) =>
-    setExpanded((prev) => {
-      const next = new Set(prev);
-      next.has(key) ? next.delete(key) : next.add(key);
-      return next;
-    });
+    setExpandedElement((prev) => (prev === key ? null : key));
 
   // Grouped by Element, released only — an unreleased card showing up here
   // (even just as a name/art, with or without ownership) is exactly the
@@ -135,7 +133,7 @@ export default function CollectionView() {
                     key={el.key}
                     leader={leader}
                     count={owned[leader.id] || 0}
-                    isOpen={expanded.has(el.key)}
+                    isOpen={expandedElement === el.key}
                     onToggle={() => toggleElement(el.key)}
                     onInspect={() => setInspecting(leader)}
                   />
@@ -143,7 +141,7 @@ export default function CollectionView() {
               })}
             </div>
 
-            {ELEMENTS.filter((el) => releasedElements.has(el.key) && expanded.has(el.key)).map((el) => {
+            {ELEMENTS.filter((el) => releasedElements.has(el.key) && el.key === expandedElement).map((el) => {
               const cards = byElement[el.key] || [];
               const ownedCount = cards.filter((c) => (owned[c.id] || 0) > 0).length;
               const rest = cards.filter((c) => c.type !== "leader");
