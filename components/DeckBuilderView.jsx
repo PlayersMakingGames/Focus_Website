@@ -13,6 +13,7 @@ import CardFilters from "@/components/CardFilters";
 import CardGrid from "@/components/CardGrid";
 import CardTile from "@/components/CardTile";
 import DeckPanel from "@/components/DeckPanel";
+import ImportDeckPanel from "@/components/ImportDeckPanel";
 
 function matchesCost(cardId, costsSet) {
   if (costsSet.size === 0) return true;
@@ -92,6 +93,17 @@ export default function DeckBuilderView() {
     setSaveMessage(error ? `Couldn't save: ${error}` : "Saved.");
   }
 
+  function handleImport(deck) {
+    const hasProgress = leader || Object.keys(counts).length > 0;
+    if (hasProgress && !window.confirm("Replace the deck you're currently building with the imported one?")) {
+      return;
+    }
+    setLeader(deck.leader);
+    setCounts(deck.counts);
+    setDeckName("");
+    setSaveMessage("");
+  }
+
   if (authLoading) return null;
 
   if (!user) {
@@ -116,7 +128,12 @@ export default function DeckBuilderView() {
   const issues = legalityIssues(cardsById, { leader, counts });
 
   return (
-    <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-[220px_1fr_320px]">
+    <div className="mt-8">
+      <div className="mb-6">
+        <ImportDeckPanel cardsById={cardsById} onImport={handleImport} />
+      </div>
+
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[220px_1fr_320px]">
       <aside>
         <CardFilters filters={filters} setFilters={setFilters} hasCollection={Object.keys(owned).length > 0} />
       </aside>
@@ -158,6 +175,7 @@ export default function DeckBuilderView() {
           saveMessage={saveMessage}
         />
       </aside>
+      </div>
     </div>
   );
 }

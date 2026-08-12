@@ -32,7 +32,7 @@ const DECK_FEATURES = [
     title: "Import Deck",
     description:
       "Paste a deck code (the same format used in-game and by the Discord bot's /deck command) to load it straight into the builder.",
-    live: false,
+    live: true,
   },
 ];
 

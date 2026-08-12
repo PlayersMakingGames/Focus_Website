@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { costOf } from "@/lib/cardCosts";
 import { deckCount, NON_LEADER_DECK_SIZE } from "@/lib/cardRules";
+import { encodeDeck } from "@/lib/deckCode";
 import DeckValidation from "@/components/DeckValidation";
 
 const GROUP_LABELS = { unit: "Units", skill: "Skills", rally: "Rally" };
@@ -26,11 +27,30 @@ export default function DeckPanel({
 }) {
   const groups = groupCounts(cardsById, counts);
   const total = deckCount(counts);
+  const [copyMessage, setCopyMessage] = useState("");
+
+  async function handleCopyCode() {
+    try {
+      const code = encodeDeck({ leader: leaderCard.id, counts });
+      await navigator.clipboard.writeText(code);
+      setCopyMessage("Copied!");
+    } catch {
+      setCopyMessage("Couldn't copy — select and copy manually.");
+    }
+    setTimeout(() => setCopyMessage(""), 2500);
+  }
 
   return (
     <div className="flex flex-col gap-5">
       <div>
-        <div className="text-xs font-semibold uppercase tracking-wide text-white/40">Leader</div>
+        <div className="flex items-center justify-between">
+          <div className="text-xs font-semibold uppercase tracking-wide text-white/40">Leader</div>
+          {leaderCard && (
+            <button type="button" onClick={handleCopyCode} className="text-xs text-cyan-300 hover:underline">
+              {copyMessage || "Copy Code"}
+            </button>
+          )}
+        </div>
         {leaderCard ? (
           <div className="mt-2 flex items-center justify-between rounded-lg border border-white/10 bg-white/[0.03] p-3">
             <div>
