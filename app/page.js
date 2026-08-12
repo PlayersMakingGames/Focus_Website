@@ -80,6 +80,36 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Deck Builder */}
+      <section className="border-t border-white/10 bg-white/[0.02]">
+        <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-24 text-center">
+          <span className="rounded-full border border-cyan-400/30 px-3 py-1 text-xs font-semibold tracking-wide text-cyan-300">
+            NOW LIVE
+          </span>
+          <h2 className="text-3xl font-bold">Build once. Play anywhere.</h2>
+          <p className="max-w-xl text-white/60">
+            Sign in with your Focus account and build a deck right in the
+            browser — the full card pool, real art, live legality checking.
+            Save it and it&rsquo;s already in Focus Online&rsquo;s own Deck
+            Library too. One account, one deck list.
+          </p>
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <Link
+              href="/decks/builder"
+              className="rounded-full bg-cyan-400 px-8 py-3 text-base font-semibold text-black transition-colors hover:bg-cyan-300"
+            >
+              Open the Deck Builder
+            </Link>
+            <Link
+              href="/decks"
+              className="rounded-full border border-white/20 px-8 py-3 text-base font-semibold text-white transition-colors hover:border-white/40"
+            >
+              See What&rsquo;s Coming
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Coming to Steam */}
       <section className="border-t border-white/10 bg-white/[0.02]">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-24 text-center">
@@ -120,18 +150,26 @@ export default function Home() {
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-6 px-6 py-20 text-center">
           <h2 className="text-3xl font-bold">Ready to duel?</h2>
           <p className="max-w-md text-white/60">
-            Focus is in alpha — sign up and we'll get you into the browser
-            client, where you can claim your two free starter Elements and
-            challenge a friend with a room code.
+            New to Focus? Sign up for alpha access and we&rsquo;ll get you
+            into the browser client. Already have an account? Sign in to
+            build a deck and jump back in.
           </p>
-          <a
-            href={ALPHA_SIGNUP_URL}
-            target="_blank"
-            rel="noreferrer"
-            className="rounded-full bg-cyan-400 px-8 py-3 text-base font-semibold text-black transition-colors hover:bg-cyan-300"
-          >
-            Sign Up for Alpha
-          </a>
+          <div className="flex flex-col gap-4 sm:flex-row">
+            <a
+              href={ALPHA_SIGNUP_URL}
+              target="_blank"
+              rel="noreferrer"
+              className="rounded-full bg-cyan-400 px-8 py-3 text-base font-semibold text-black transition-colors hover:bg-cyan-300"
+            >
+              Sign Up for Alpha
+            </a>
+            <Link
+              href="/account"
+              className="rounded-full border border-white/20 px-8 py-3 text-base font-semibold text-white transition-colors hover:border-white/40"
+            >
+              Sign In
+            </Link>
+          </div>
         </div>
       </section>
     </div>
