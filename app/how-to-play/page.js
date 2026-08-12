@@ -1,4 +1,5 @@
 import { cardImageUrl } from "@/lib/cardImage";
+import { TUTORIAL_VIDEO_URL } from "@/lib/links";
 
 export const metadata = {
   title: "How to Play — Focus",
@@ -94,6 +95,14 @@ const ACCENT_STYLES = {
   cyan: "border-cyan-400/30 bg-cyan-400/5 text-cyan-300",
 };
 
+function PlayGlyph() {
+  return (
+    <svg viewBox="0 0 24 24" fill="currentColor" className="h-3.5 w-3.5">
+      <path d="M6 4.5v15l13-7.5-13-7.5z" />
+    </svg>
+  );
+}
+
 function FlowStep({ index, total, name, children }) {
   return (
     <div className="flex items-center gap-3">
@@ -112,14 +121,56 @@ function FlowStep({ index, total, name, children }) {
 
 export default function HowToPlay() {
   return (
-    <div className="mx-auto w-full max-w-4xl px-6 py-20">
-      <h1 className="text-4xl font-extrabold tracking-tight">How to Play</h1>
-      <p className="mt-4 max-w-2xl text-white/60">
-        Focus is a head-to-head expandable card game. Reduce your opponent&rsquo;s
-        Leader to 0 HP before they do the same to you. Matches are best-of-3.
-      </p>
+    <div className="flex flex-col">
+      {/* Hero — the card art is the same Fire Leader used as the
+          illustrative example throughout the page below, not a separate
+          asset. cardImageUrl() is an absolute URL to FocusSim's own art
+          host, so it's unaffected by this app's basePath (unlike a plain
+          public/ image reference here would be — Next.js serves public/
+          under the basePath, not at the bare root, and nothing else in
+          this app references a local static image directly). */}
+      <section className="relative overflow-hidden border-b border-white/10 bg-hud-grid">
+        <div className="glow-cyan pointer-events-none absolute inset-0" />
+        <div className="relative mx-auto grid max-w-5xl items-center gap-8 px-6 py-16 sm:grid-cols-[1fr_auto]">
+          <div>
+            <h1 className="text-4xl font-extrabold uppercase tracking-tight sm:text-5xl">
+              How to Play
+            </h1>
+            <p className="mt-4 max-w-lg text-white/60">
+              Focus is a head-to-head expandable card game. Reduce your
+              opponent&rsquo;s Leader to 0 HP before they do the same to you.
+              Matches are best-of-3.
+            </p>
+            {TUTORIAL_VIDEO_URL ? (
+              <a
+                href={TUTORIAL_VIDEO_URL}
+                target="_blank"
+                rel="noreferrer"
+                className="hud-cut-sm mt-6 inline-flex items-center gap-2 border border-cyan-400/40 px-5 py-2.5 text-sm font-semibold text-cyan-300 transition-colors hover:border-cyan-400/70"
+              >
+                <PlayGlyph /> Watch Tutorial
+              </a>
+            ) : (
+              <span
+                title="Tutorial video coming soon"
+                aria-disabled="true"
+                className="hud-cut-sm mt-6 inline-flex cursor-not-allowed items-center gap-2 border border-white/15 px-5 py-2.5 text-sm font-semibold text-white/30"
+              >
+                <PlayGlyph /> Watch Tutorial
+              </span>
+            )}
+          </div>
+          <img
+            src={cardImageUrl(CARD.leader)}
+            alt=""
+            className="hidden h-64 w-auto rounded-xl border border-white/10 object-cover shadow-2xl shadow-black/60 sm:block"
+          />
+        </div>
+      </section>
 
-      <section className="mt-14">
+      <div className="mx-auto w-full max-w-4xl px-6 py-14">
+
+      <section className="mt-0">
         <h2 className="text-2xl font-bold">The Turn Structure</h2>
         <p className="mt-2 text-white/60">
           Every turn moves through four phases, in order, then loops back to Gather:
@@ -188,6 +239,7 @@ export default function HowToPlay() {
           winning your first match.
         </p>
       </section>
+      </div>
     </div>
   );
 }
