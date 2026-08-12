@@ -1,7 +1,19 @@
+import { cardImageUrl } from "@/lib/cardImage";
+
 export const metadata = {
   title: "How to Play — Focus",
   description:
     "Learn the rules of Focus: turn structure, Units, Skills, Rally cards, and how to win.",
+};
+
+// One Element (Fire) used throughout as the illustrative example — real
+// card art via cardImageUrl, the same helper Collection/Deck Builder use,
+// not a separate set of screenshots to keep in sync.
+const CARD = {
+  leader: "FB1-43", // Magus Dracostar
+  unit: "FB1-33", // Fire Apprentice
+  skill: "FB1-34", // Fire Blast
+  rally: "FB1-36", // Fire Explosion
 };
 
 const PHASES = [
@@ -29,11 +41,80 @@ const SKILL_STAGES = [
   { name: "Resolve", text: "Its effect happens. An untargeted attack hits whatever sits directly across it — the enemy unit in the same lane, or their Leader if that lane is empty." },
 ];
 
+// Only real board zones — a card SITS in one of these. Standby is
+// deliberately not its own entry here: it's a way a Skill can be played
+// (face-down instead of face-up), not a place a card exists that a Skill
+// doesn't already occupy. It's folded into the Skills entry instead.
+const ZONES = [
+  {
+    name: "Leader",
+    art: CARD.leader,
+    text: "Your Element's champion. Sets your Focus generation, carries a per-turn activated ability, and is what your opponent is really trying to kill.",
+  },
+  {
+    name: "Focus",
+    text: "Your resource. Tap Focus cards to pay for Units, Skills, and abilities.",
+  },
+  {
+    name: "Units",
+    art: CARD.unit,
+    text: "Played to a lane for a Focus cost. Each carries a Skill Zone underneath it.",
+  },
+  {
+    name: "Skills",
+    art: CARD.skill,
+    text: "Go three stages: Play (free, face-up under a Unit), Cast (pay its cost), Resolve (its effect happens). Any Skill can instead be set face-down to hide it — your opponent can't tell what it is until you cast it, it resolves, or it's revealed. A Skill set face-down like this is called a Standby Skill: it's not a separate zone, just a hidden card in the same Skill Zone. It sits there until its own trigger condition happens, then you choose whether to pay its cost and react — you never cast a Standby yourself.",
+  },
+  {
+    name: "Rally",
+    art: CARD.rally,
+    text: "Works like a Skill, but plays under your Leader instead of a Unit.",
+  },
+  {
+    name: "Drop Pile & Oblivion",
+    text: "Spent, face-up cards land in your Drop pile at Return. Cards removed from the game entirely go to Oblivion instead.",
+  },
+];
+
+const RULES = [
+  {
+    name: "Surge",
+    accent: "amber",
+    text: "A passive bonus that switches on for any card at 25 HP or less — a reward for playing on when you're behind.",
+  },
+  {
+    name: "Regen",
+    accent: "cyan",
+    text: "If you ever have to draw or gain Focus with an empty deck, your Drop pile shuffles back in as your new deck — but your Leader takes 5 damage each time. It keeps you in the game, but it isn't free.",
+  },
+];
+
+const ACCENT_STYLES = {
+  amber: "border-amber-400/30 bg-amber-400/5 text-amber-300",
+  cyan: "border-cyan-400/30 bg-cyan-400/5 text-cyan-300",
+};
+
+function FlowStep({ index, total, name, children }) {
+  return (
+    <div className="flex items-center gap-3">
+      <div className="hud-cut-sm flex-1 border border-white/10 bg-white/[0.03] p-5">
+        <div className="text-sm font-semibold text-cyan-400">
+          {index + 1}. {name}
+        </div>
+        <p className="mt-2 text-sm text-white/60">{children}</p>
+      </div>
+      {index < total - 1 && (
+        <span className="hidden shrink-0 text-lg text-white/20 sm:block">→</span>
+      )}
+    </div>
+  );
+}
+
 export default function HowToPlay() {
   return (
-    <div className="mx-auto w-full max-w-3xl px-6 py-20">
+    <div className="mx-auto w-full max-w-4xl px-6 py-20">
       <h1 className="text-4xl font-extrabold tracking-tight">How to Play</h1>
-      <p className="mt-4 text-white/60">
+      <p className="mt-4 max-w-2xl text-white/60">
         Focus is a head-to-head expandable card game. Reduce your opponent&rsquo;s
         Leader to 0 HP before they do the same to you. Matches are best-of-3.
       </p>
@@ -41,120 +122,65 @@ export default function HowToPlay() {
       <section className="mt-14">
         <h2 className="text-2xl font-bold">The Turn Structure</h2>
         <p className="mt-2 text-white/60">
-          Every turn moves through four phases, in order:
+          Every turn moves through four phases, in order, then loops back to Gather:
         </p>
-        <ol className="mt-6 space-y-6">
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:items-stretch">
           {PHASES.map((phase, i) => (
-            <li key={phase.name} className="flex gap-4">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-cyan-400/40 text-sm font-semibold text-cyan-400">
-                {i + 1}
-              </span>
-              <div>
-                <h3 className="font-semibold">{phase.name}</h3>
-                <p className="mt-1 text-sm text-white/60">{phase.text}</p>
-              </div>
-            </li>
+            <FlowStep key={phase.name} index={i} total={PHASES.length} name={phase.name}>
+              {phase.text}
+            </FlowStep>
           ))}
-        </ol>
+        </div>
       </section>
 
       <section className="mt-14">
         <h2 className="text-2xl font-bold">Zones</h2>
-        <dl className="mt-6 space-y-5">
-          <div>
-            <dt className="font-semibold">Leader</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              Your Element&rsquo;s champion. Sets your Focus generation, carries
-              a per-turn activated ability, and is what your opponent is
-              really trying to kill.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold">Focus</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              Your resource. Tap Focus cards to pay for Units, Skills, and
-              abilities.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold">Units</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              Played to a lane for a Focus cost. Each carries a Skill Zone
-              underneath it.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold">Skills</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              Go three stages: Play (free, face-up under a Unit), Cast (pay
-              its cost), Resolve (its effect happens). Any Skill can instead
-              be set face-down to hide it — your opponent can&rsquo;t tell what
-              it is until you cast it, it resolves, or it&rsquo;s revealed.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold">Standby Skills</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              A special kind of Skill that reacts to something your opponent
-              does — always played face-down. It sits hidden until its
-              trigger condition happens, then you choose whether to pay its
-              cost and react. You never cast it yourself.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold">Rally</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              Works like a Skill, but plays under your Leader instead of a
-              Unit.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold">Drop Pile &amp; Oblivion</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              Spent, face-up cards land in your Drop pile at Return. Cards
-              removed from the game entirely go to Oblivion instead.
-            </dd>
-          </div>
-        </dl>
-      </section>
-
-      <section className="mt-14">
-        <h2 className="text-2xl font-bold">Playing a Skill</h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-3">
-          {SKILL_STAGES.map((stage, i) => (
-            <div key={stage.name} className="rounded-xl border border-white/10 bg-white/[0.03] p-5">
-              <div className="text-sm font-semibold text-cyan-400">
-                {i + 1}. {stage.name}
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {ZONES.map((zone) => (
+            <div key={zone.name} className="hud-cut-sm flex gap-4 border border-white/10 bg-white/[0.03] p-5">
+              {zone.art && (
+                <img
+                  src={cardImageUrl(zone.art)}
+                  alt=""
+                  className="h-24 w-auto shrink-0 rounded-md border border-white/10 object-cover"
+                />
+              )}
+              <div>
+                <h3 className="font-semibold text-white">{zone.name}</h3>
+                <p className="mt-1 text-sm leading-relaxed text-white/60">{zone.text}</p>
               </div>
-              <p className="mt-2 text-sm text-white/60">{stage.text}</p>
             </div>
           ))}
         </div>
       </section>
 
       <section className="mt-14">
-        <h2 className="text-2xl font-bold">Two Rules to Watch For</h2>
-        <dl className="mt-6 space-y-5">
-          <div>
-            <dt className="font-semibold">Surge</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              A passive bonus that switches on for any card at 25 HP or less
-              — a reward for playing on when you&rsquo;re behind.
-            </dd>
-          </div>
-          <div>
-            <dt className="font-semibold">Regen</dt>
-            <dd className="mt-1 text-sm text-white/60">
-              If you ever have to draw or gain Focus with an empty deck, your
-              Drop pile shuffles back in as your new deck — but your Leader
-              takes 5 damage each time. It keeps you in the game, but it
-              isn&rsquo;t free.
-            </dd>
-          </div>
-        </dl>
+        <h2 className="text-2xl font-bold">Playing a Skill</h2>
+        <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-3 sm:items-stretch">
+          {SKILL_STAGES.map((stage, i) => (
+            <FlowStep key={stage.name} index={i} total={SKILL_STAGES.length} name={stage.name}>
+              {stage.text}
+            </FlowStep>
+          ))}
+        </div>
       </section>
 
-      <section className="mt-14 rounded-2xl border border-cyan-400/20 bg-cyan-400/5 p-8 text-center">
+      <section className="mt-14">
+        <h2 className="text-2xl font-bold">Two Rules to Watch For</h2>
+        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+          {RULES.map((rule) => (
+            <div
+              key={rule.name}
+              className={`hud-cut-sm border p-5 ${ACCENT_STYLES[rule.accent]}`}
+            >
+              <h3 className="font-semibold">{rule.name}</h3>
+              <p className="mt-1 text-sm leading-relaxed text-white/70">{rule.text}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="hud-cut mt-14 border border-cyan-400/20 bg-cyan-400/5 p-8 text-center">
         <h2 className="text-2xl font-bold">Best learned by doing</h2>
         <p className="mt-3 text-white/60">
           Focus has a full in-app Tutorial that walks you through a real game
