@@ -1,25 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { costOf } from "@/lib/cardCosts";
-import { deckCount, NON_LEADER_DECK_SIZE } from "@/lib/cardRules";
+import { deckCount, NON_LEADER_DECK_SIZE, GROUP_LABELS, groupCounts } from "@/lib/cardRules";
 import { encodeDeck } from "@/lib/deckCode";
 import DeckValidation from "@/components/DeckValidation";
-
-const GROUP_LABELS = { unit: "Units", skill: "Skills", rally: "Rally" };
-
-function groupCounts(cardsById, counts) {
-  const groups = { unit: [], skill: [], rally: [] };
-  for (const [id, n] of Object.entries(counts)) {
-    const card = cardsById[id];
-    if (!card || n < 1) continue;
-    (groups[card.type] ||= []).push({ card, n });
-  }
-  for (const list of Object.values(groups)) {
-    list.sort((a, b) => (costOf(a.card.id) ?? 0) - (costOf(b.card.id) ?? 0) || a.card.name.localeCompare(b.card.name));
-  }
-  return groups;
-}
 
 export default function DeckPanel({
   cardsById, leaderCard, onChangeLeader, counts, onRemove,

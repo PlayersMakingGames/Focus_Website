@@ -8,6 +8,7 @@ import { useCardCatalog } from "@/lib/useCardCatalog";
 import { useCollection } from "@/lib/useCollection";
 import { usePlayerDecks } from "@/lib/usePlayerDecks";
 import { useReleasedElements } from "@/lib/useReleasedElements";
+import { fetchSharedDeck } from "@/lib/useSharedDecks";
 import { cardElements, cardLegalForLeader, legalityIssues } from "@/lib/cardRules";
 import { costOf } from "@/lib/cardCosts";
 import CardFilters from "@/components/CardFilters";
@@ -35,6 +36,7 @@ export default function DeckBuilderView() {
   const { released: releasedElements } = useReleasedElements();
   const searchParams = useSearchParams();
   const editName = searchParams.get("edit");
+  const fromId = searchParams.get("from");
 
   const [leader, setLeader] = useState(null);
   const [counts, setCounts] = useState({});
@@ -55,6 +57,22 @@ export default function DeckBuilderView() {
     setDeckName(editName);
     loadedEditRef.current = editName;
   }, [editName, decks]);
+
+  // ?from=<shared_decks id> — loading a COPY to build from (Community
+  // Decks' "Open in Deck Builder"), not tied to the original owner's save:
+  // deckName starts blank, so Save creates a new private deck rather than
+  // ever writing back into someone else's published snapshot.
+  const loadedFromRef = useRef(null);
+  useEffect(() => {
+    if (!fromId || loadedFromRef.current === fromId) return;
+    loadedFromRef.current = fromId;
+    fetchSharedDeck(fromId).then(({ deck: shared, error }) => {
+      if (error || !shared) return;
+      setLeader(shared.leader || null);
+      setCounts(shared.counts || {});
+      setDeckName("");
+    });
+  }, [fromId]);
 
   const leaderCard = leader ? cardsById[leader] : null;
   // Ice/Magnetic/Black Flame are built but held back for the alpha
