@@ -111,14 +111,24 @@ export default function Header() {
           </Link>
         </nav>
 
-        <a
-          href={ALPHA_SIGNUP_URL}
-          target="_blank"
-          rel="noreferrer"
-          className="hud-cut-sm bg-cyan-400 px-5 py-2 text-sm font-semibold text-black transition-colors hover:bg-cyan-300"
-        >
-          Sign Up for Alpha
-        </a>
+        <div className="flex items-center gap-3">
+          {!user && (
+            <Link
+              href="/account"
+              className="hud-cut-sm border border-white/20 px-5 py-2 text-sm font-semibold text-white transition-colors hover:border-white/40"
+            >
+              Sign In
+            </Link>
+          )}
+          <a
+            href={ALPHA_SIGNUP_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="hud-cut-sm bg-cyan-400 px-5 py-2 text-sm font-semibold text-black transition-colors hover:bg-cyan-300"
+          >
+            Sign Up for Alpha
+          </a>
+        </div>
       </div>
     </header>
   );
