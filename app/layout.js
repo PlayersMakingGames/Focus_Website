@@ -18,6 +18,23 @@ export const metadata = {
   title: "Focus — An Elemental Expandable Card Game",
   description:
     "Focus is an elemental expandable card game (ECG) of Units, Skills, and Leaders. Build a deck around one of 5 Elements and outplay your opponent in fast, tactical Bo3 matches.",
+  keywords: [
+    "Focus",
+    "Focus TCG",
+    "Focus card game",
+    "Focus ECG",
+    "expandable card game",
+    "elemental card game",
+    "Fire Earth Lightning Water Wind",
+    "free online card game",
+    "browser card game",
+    "strategy card game",
+    "Bo3 card game",
+    "deck builder card game",
+    "PlayersMakingGames",
+    "competitive card game",
+    "no randomized packs",
+  ],
 };
 
 export default function RootLayout({ children }) {

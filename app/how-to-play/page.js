@@ -5,6 +5,16 @@ export const metadata = {
   title: "How to Play — Focus",
   description:
     "Learn the rules of Focus: turn structure, Units, Skills, Rally cards, and how to win.",
+  keywords: [
+    "how to play Focus",
+    "Focus TCG rules",
+    "Focus card game rules",
+    "Focus ECG rules",
+    "Focus turn structure",
+    "expandable card game rules",
+    "elemental card game rules",
+    "Focus Skills and Units",
+  ],
 };
 
 // One Element (Fire) used throughout as the illustrative example — real
