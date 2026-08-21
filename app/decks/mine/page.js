@@ -2,7 +2,7 @@ import Link from "next/link";
 import MyDecksView from "@/components/MyDecksView";
 
 export const metadata = {
-  title: "My Decks — Focus",
+  title: "My Decks · Focus",
   description: "Your saved Focus decks.",
 };
 
@@ -13,7 +13,7 @@ export default function MyDecks() {
         <div>
           <h1 className="text-4xl font-extrabold tracking-tight">My Decks</h1>
           <p className="mt-2 text-white/60">
-            The same decks Focus Online&rsquo;s own Deck Library reads — one
+            The same decks Focus Online&rsquo;s own Deck Library reads: one
             account, one deck list.
           </p>
         </div>

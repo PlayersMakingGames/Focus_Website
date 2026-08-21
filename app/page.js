@@ -176,7 +176,7 @@ export default async function Home() {
           </span>
           <h2 className="text-3xl font-bold">Focus is heading to Steam</h2>
           <p className="max-w-xl text-white/60">
-            We're bringing the full Focus experience to Steam — the same fixed, fair card pool,
+            We're bringing the full Focus experience to Steam: the same fixed, fair card pool,
             no different treatment by platform. The free browser version below isn't going
             anywhere either; Steam is another way in, not a replacement.
           </p>
@@ -229,7 +229,7 @@ export default async function Home() {
                   ))}
                 </div>
               ) : (
-                <p className="mt-6 text-sm text-white/50">No news yet — check back soon.</p>
+                <p className="mt-6 text-sm text-white/50">No news yet. Check back soon.</p>
               )}
             </div>
 

@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
 
 export const metadata = {
-  title: "Leaderboard — Focus",
+  title: "Leaderboard · Focus",
   description: "Top Focus players ranked by wins.",
 };
 
@@ -31,7 +31,7 @@ export default async function LeaderboardPage() {
 
       {!error && (!players || players.length === 0) && (
         <p className="mt-10 text-sm text-white/50">
-          No ranked players yet — be the first to play a match.
+          No ranked players yet. Be the first to play a match.
         </p>
       )}
 
@@ -58,7 +58,7 @@ export default async function LeaderboardPage() {
                     {player.username || "Anonymous Duelist"}
                   </td>
                   <td className="px-5 py-3 text-white/60">
-                    {player.favorite_element || "—"}
+                    {player.favorite_element || "-"}
                   </td>
                   <td className="px-5 py-3 text-right font-semibold text-cyan-400">
                     {player.wins}

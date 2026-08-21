@@ -1,7 +1,7 @@
 import SharedDeckView from "@/components/SharedDeckView";
 
 export const metadata = {
-  title: "Shared Deck — Focus",
+  title: "Shared Deck · Focus",
   description: "A Focus deck shared by another player.",
 };
 

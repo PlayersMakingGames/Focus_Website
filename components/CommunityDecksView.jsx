@@ -51,7 +51,7 @@ export default function CommunityDecksView() {
   if (decks.length === 0) {
     return (
       <div className="hud-cut mt-8 max-w-md border border-white/10 bg-white/[0.03] p-6">
-        <p className="text-white/70">No decks published yet — be the first.</p>
+        <p className="text-white/70">No decks published yet. Be the first.</p>
         <Link href="/decks/mine" className="mt-4 inline-block text-sm text-cyan-300 hover:underline">
           Go to My Decks →
         </Link>

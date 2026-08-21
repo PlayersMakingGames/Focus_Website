@@ -1,7 +1,7 @@
 import Link from "next/link";
 
 export const metadata = {
-  title: "Decks — Focus",
+  title: "Decks · Focus",
   description: "Build, save, and share Focus decks.",
 };
 
@@ -16,7 +16,7 @@ const DECK_FEATURES = [
     href: "/decks/mine",
     title: "My Decks",
     description:
-      "Decks you've saved to your account — the same list Focus Online's own Deck Library reads, since both share one account.",
+      "Decks you've saved to your account: the same list Focus Online's own Deck Library reads, since both share one account.",
   },
   {
     href: "/decks/community",
@@ -38,7 +38,7 @@ export default function DecksHub() {
       <h1 className="text-4xl font-extrabold tracking-tight">Build once. Play anywhere.</h1>
       <p className="mt-4 max-w-xl text-white/60">
         A deck builder that runs on the same card database and account
-        system Focus Online already uses — a deck you build here is the same
+        system Focus Online already uses. A deck you build here is the same
         deck you see in the app. Sign in with your Focus account to use it.
       </p>
 

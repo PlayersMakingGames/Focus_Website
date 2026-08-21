@@ -128,7 +128,7 @@ export default function DeckBuilderView() {
   async function handleSave() {
     const trimmed = deckName.trim();
     const isRename = !!savedAsName && trimmed !== savedAsName;
-    if (isRename && !window.confirm(`Rename "${savedAsName}" to "${trimmed}"? This renames the existing deck — it won't create a second copy.`)) {
+    if (isRename && !window.confirm(`Rename "${savedAsName}" to "${trimmed}"? This renames the existing deck. It won't create a second copy.`)) {
       return;
     }
     setSaving(true);

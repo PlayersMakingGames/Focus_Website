@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
 
 export const metadata = {
-  title: "Shop — Focus",
+  title: "Shop · Focus",
   description: "Browse Elements, cosmetics, and alternate arts available in Focus.",
 };
 
@@ -42,7 +42,7 @@ export default async function ShopPage() {
     <div className="mx-auto w-full max-w-5xl px-6 py-20">
       <h1 className="text-4xl font-extrabold tracking-tight">Shop</h1>
       <p className="mt-4 max-w-xl text-white/60">
-        One catalog, two ways to play — digital goods for Focus Online today,
+        One catalog, two ways to play: digital goods for Focus Online today,
         with Paper Focus, the physical card game, on the way.
       </p>
 
@@ -58,7 +58,7 @@ export default async function ShopPage() {
         </div>
         <p className="mt-2 max-w-xl text-sm text-white/60">
           Elements, cosmetics, and alternate arts, priced in Gold. Sign in to
-          the app to buy — every purchase there is verified server-side, so
+          the app to buy. Every purchase there is verified server-side, so
           prices always match what&rsquo;s shown here.
         </p>
 
@@ -131,7 +131,7 @@ export default async function ShopPage() {
           </span>
           <p className="mt-4 text-white/60">
             Build once. Play anywhere. Paper Focus will bring the exact same
-            cards, Leaders, and Elements from Focus Online to the table —
+            cards, Leaders, and Elements from Focus Online to the table:
             same card identities, same rules, so a deck you build works both
             ways. Nothing is purchasable here yet.
           </p>

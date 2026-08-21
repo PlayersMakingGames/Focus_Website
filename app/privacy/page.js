@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Privacy Policy — Focus",
+  title: "Privacy Policy · Focus",
   description: "Privacy Policy for Focus, explaining what data we collect and how it's used.",
 };
 
@@ -46,7 +46,7 @@ export default function PrivacyPolicy() {
             </li>
             <li>
               <strong className="text-white/85">Demographic and Marketing Data:</strong> We collect
-              demographic information—specifically your age, gender, and income bracket—to
+              demographic information (specifically your age, gender, and income bracket) to
               personalize your experience and improve our marketing efforts.
             </li>
             <li>

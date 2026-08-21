@@ -1,7 +1,7 @@
 import { supabase } from "@/lib/supabaseClient";
 
 export const metadata = {
-  title: "News — Focus",
+  title: "News · Focus",
   description: "Patch notes, announcements, and updates from Focus.",
 };
 
@@ -39,7 +39,7 @@ export default async function NewsPage() {
     <div className="mx-auto w-full max-w-3xl px-6 py-20">
       <h1 className="text-4xl font-extrabold tracking-tight">News</h1>
       <p className="mt-4 text-white/60">
-        Patch notes, announcements, and everything else shipping in Focus —
+        Patch notes, announcements, and everything else shipping in Focus,
         the same feed you see in Focus Online itself.
       </p>
 
@@ -51,7 +51,7 @@ export default async function NewsPage() {
 
       {!error && (!posts || posts.length === 0) && (
         <p className="mt-10 text-sm text-white/50">
-          No news yet — check back soon.
+          No news yet. Check back soon.
         </p>
       )}
 

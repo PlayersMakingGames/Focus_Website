@@ -23,7 +23,7 @@ function LeaderRowTile({ leader, count, isOpen, onToggle, onInspect }) {
       <button
         type="button"
         onClick={onToggle}
-        title={`${leader.name} — click to ${isOpen ? "collapse" : "expand"}`}
+        title={`${leader.name} (click to ${isOpen ? "collapse" : "expand"})`}
         className={`block w-full overflow-hidden rounded-lg border transition-colors ${
           isOpen ? "border-cyan-400/60" : "border-white/10 hover:border-cyan-400/40"
         }`}
@@ -36,7 +36,7 @@ function LeaderRowTile({ leader, count, isOpen, onToggle, onInspect }) {
         />
       </button>
       <span className={`pointer-events-none absolute right-1.5 top-1.5 rounded-full bg-black/80 px-1.5 py-0.5 text-xs font-semibold ${count > 0 ? "text-cyan-300" : "text-white/40"}`}>
-        {count > 0 ? `×${count}` : "—"}
+        {count > 0 ? `×${count}` : "-"}
       </span>
       <button
         type="button"
@@ -150,7 +150,7 @@ export default function CollectionView() {
                   <button
                     type="button"
                     onClick={() => toggleElement(el.key)}
-                    title={`${el.label} — click to collapse`}
+                    title={`${el.label} (click to collapse)`}
                     className="flex items-center gap-2 text-left"
                   >
                     <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: el.color }} />

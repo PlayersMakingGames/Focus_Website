@@ -19,7 +19,7 @@ export default function DeckPanel({
       await navigator.clipboard.writeText(code);
       setCopyMessage("Copied!");
     } catch {
-      setCopyMessage("Couldn't copy — select and copy manually.");
+      setCopyMessage("Couldn't copy. Select and copy manually.");
     }
     setTimeout(() => setCopyMessage(""), 2500);
   }

@@ -22,7 +22,7 @@ export default function CardTile({ card, count = 0, disabledReason, onAdd, onRem
         type="button"
         disabled={mode === "display" ? false : !!disabledReason}
         onClick={() => (mode === "display" ? onInspect?.(card) : onAdd?.(card))}
-        title={mode === "display" ? `${card.name} — click to enlarge` : disabledReason || card.name}
+        title={mode === "display" ? `${card.name} (click to enlarge)` : disabledReason || card.name}
         className={`block w-full overflow-hidden rounded-lg border border-white/10 bg-white/[0.03] transition-colors hover:border-cyan-400/40 disabled:cursor-default disabled:hover:border-white/10 ${mode === "display" ? "cursor-zoom-in" : ""}`}
       >
         <img
@@ -56,7 +56,7 @@ export default function CardTile({ card, count = 0, disabledReason, onAdd, onRem
 
       {mode === "display" && (
         <span className={`absolute right-1.5 top-1.5 rounded-full bg-black/80 px-1.5 py-0.5 text-xs font-semibold ${count > 0 ? "text-cyan-300" : "text-white/40"}`}>
-          {count > 0 ? `×${count}` : "—"}
+          {count > 0 ? `×${count}` : "-"}
         </span>
       )}
 

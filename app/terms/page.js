@@ -1,5 +1,5 @@
 export const metadata = {
-  title: "Terms of Service — Focus",
+  title: "Terms of Service · Focus",
   description: "Terms of Service governing your use of Focus.",
 };
 
@@ -133,8 +133,8 @@ export default function TermsOfService() {
           <h2>Article 6 (Intellectual Property Rights)</h2>
           <p>
             <strong className="text-white/85">Proprietary Content:</strong> All underlying
-            intellectual property in the Service—including but not limited to game mechanics,
-            software code, database structures, UI design, logos, lore, and text—is the exclusive
+            intellectual property in the Service (including but not limited to game mechanics,
+            software code, database structures, UI design, logos, lore, and text) is the exclusive
             property of Players Making Games and is protected by applicable copyright and
             trademark laws.
           </p>

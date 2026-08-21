@@ -54,7 +54,7 @@ export default function LoginForm() {
       </button>
 
       <p className="mt-4 text-xs text-white/40">
-        Use your existing Focus Online account — this site doesn&rsquo;t
+        Use your existing Focus Online account. This site doesn&rsquo;t
         create new accounts (Focus is in closed alpha and signup needs an
         invite code, handled in the app itself).
       </p>

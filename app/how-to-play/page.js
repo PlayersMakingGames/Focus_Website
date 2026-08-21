@@ -2,7 +2,7 @@ import { cardImageUrl } from "@/lib/cardImage";
 import { TUTORIAL_VIDEO_URL } from "@/lib/links";
 
 export const metadata = {
-  title: "How to Play — Focus",
+  title: "How to Play · Focus",
   description:
     "Learn the rules of Focus: turn structure, Units, Skills, Rally cards, and how to win.",
   keywords: [
@@ -34,7 +34,7 @@ const PHASES = [
   },
   {
     name: "Focus",
-    text: "Cards from the top of your deck are automatically added to your Focus zone. How many is printed on your Leader — this is the resource you'll tap to pay costs.",
+    text: "Cards from the top of your deck are automatically added to your Focus zone. How many is printed on your Leader: that's the resource you'll tap to pay costs.",
   },
   {
     name: "Main",
@@ -42,14 +42,14 @@ const PHASES = [
   },
   {
     name: "Return",
-    text: "End your turn. Everything face-up you didn't spend — cast Skills, used Focus, an uncast Rally card — sweeps to the Drop pile. Only face-down cards stay in play for next turn.",
+    text: "End your turn. Everything face-up you didn't spend (cast Skills, used Focus, an uncast Rally card) sweeps to the Drop pile. Only face-down cards stay in play for next turn.",
   },
 ];
 
 const SKILL_STAGES = [
   { name: "Play", text: "Place a Skill under one of your Units. Always free." },
   { name: "Cast", text: "Pay the Skill's Focus cost to activate it." },
-  { name: "Resolve", text: "Its effect happens. An untargeted attack hits whatever sits directly across it — the enemy unit in the same lane, or their Leader if that lane is empty." },
+  { name: "Resolve", text: "Its effect happens. An untargeted attack hits whatever sits directly across it: the enemy unit in the same lane, or their Leader if that lane is empty." },
 ];
 
 // Only real board zones — a card SITS in one of these. Standby is
@@ -74,7 +74,7 @@ const ZONES = [
   {
     name: "Skills",
     art: CARD.skill,
-    text: "Go three stages: Play (free, face-up under a Unit), Cast (pay its cost), Resolve (its effect happens). Any Skill can instead be set face-down to hide it — your opponent can't tell what it is until you cast it, it resolves, or it's revealed. A Skill set face-down like this is called a Standby Skill: it's not a separate zone, just a hidden card in the same Skill Zone. It sits there until its own trigger condition happens, then you choose whether to pay its cost and react — you never cast a Standby yourself.",
+    text: "Go three stages: Play (free, face-up under a Unit), Cast (pay its cost), Resolve (its effect happens). Any Skill can instead be set face-down to hide it: your opponent can't tell what it is until you cast it, it resolves, or it's revealed. A Skill set face-down like this is called a Standby Skill: it's not a separate zone, just a hidden card in the same Skill Zone. It sits there until its own trigger condition happens, then you choose whether to pay its cost and react. You never cast a Standby yourself.",
   },
   {
     name: "Rally",
@@ -91,12 +91,12 @@ const RULES = [
   {
     name: "Surge",
     accent: "amber",
-    text: "A passive bonus that switches on for any card at 25 HP or less — a reward for playing on when you're behind.",
+    text: "A passive bonus that switches on for any card at 25 HP or less: a reward for playing on when you're behind.",
   },
   {
     name: "Regen",
     accent: "cyan",
-    text: "If you ever have to draw or gain Focus with an empty deck, your Drop pile shuffles back in as your new deck — but your Leader takes 5 damage each time. It keeps you in the game, but it isn't free.",
+    text: "If you ever have to draw or gain Focus with an empty deck, your Drop pile shuffles back in as your new deck, but your Leader takes 5 damage each time. It keeps you in the game, but it isn't free.",
   },
 ];
 
@@ -245,7 +245,7 @@ export default function HowToPlay() {
         <h2 className="text-2xl font-bold">Best learned by doing</h2>
         <p className="mt-3 text-white/60">
           Focus has a full in-app Tutorial that walks you through a real game
-          turn by turn — Gather, Focus, Main, and Return — ending with you
+          turn by turn (Gather, Focus, Main, and Return), ending with you
           winning your first match.
         </p>
       </section>

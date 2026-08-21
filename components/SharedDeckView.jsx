@@ -66,7 +66,7 @@ export default function SharedDeckView({ id }) {
       await navigator.clipboard.writeText(code);
       setMessage("Code copied.");
     } catch {
-      setMessage("Couldn't copy — try again.");
+      setMessage("Couldn't copy. Try again.");
     }
     setTimeout(() => setMessage(""), 2500);
   }
