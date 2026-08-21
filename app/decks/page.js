@@ -38,8 +38,8 @@ export default function DecksHub() {
       <h1 className="text-4xl font-extrabold tracking-tight">Build once. Play anywhere.</h1>
       <p className="mt-4 max-w-xl text-white/60">
         A deck builder that runs on the same card database and account
-        system Focus Online already uses. A deck you build here is the same
-        deck you see in the app. Sign in with your Focus account to use it.
+        system as Focus Online, so a deck you build here shows up in the
+        app too. Sign in with your Focus account to get started.
       </p>
 
       <div className="mt-10 grid grid-cols-1 gap-4 sm:grid-cols-2">

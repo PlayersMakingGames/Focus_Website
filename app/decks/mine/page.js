@@ -13,8 +13,8 @@ export default function MyDecks() {
         <div>
           <h1 className="text-4xl font-extrabold tracking-tight">My Decks</h1>
           <p className="mt-2 text-white/60">
-            The same decks Focus Online&rsquo;s own Deck Library reads: one
-            account, one deck list.
+            One account, one deck list: the same one Focus Online&rsquo;s
+            own Deck Library reads.
           </p>
         </div>
         <Link

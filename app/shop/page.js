@@ -58,8 +58,7 @@ export default async function ShopPage() {
         </div>
         <p className="mt-2 max-w-xl text-sm text-white/60">
           Elements, cosmetics, and alternate arts, priced in Gold. Sign in to
-          the app to buy. Every purchase there is verified server-side, so
-          prices always match what&rsquo;s shown here.
+          the app to buy, where the price always matches what you see here.
         </p>
 
         {error && (
@@ -131,9 +130,9 @@ export default async function ShopPage() {
           </span>
           <p className="mt-4 text-white/60">
             Build once. Play anywhere. Paper Focus will bring the exact same
-            cards, Leaders, and Elements from Focus Online to the table:
-            same card identities, same rules, so a deck you build works both
-            ways. Nothing is purchasable here yet.
+            cards, Leaders, and Elements from Focus Online to the table, so
+            any deck you build works in both places. Nothing is purchasable
+            here yet.
           </p>
         </div>
       </section>
