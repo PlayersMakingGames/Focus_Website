@@ -155,8 +155,8 @@ export default function PrivacyPolicy() {
           <p>
             If you have data requests, account deletion requests, or questions about this policy,
             please contact us at:{" "}
-            <a href="mailto:pmgtcg@gmail.com" className="text-cyan-400 hover:underline">
-              pmgtcg@gmail.com
+            <a href="mailto:support@mail.pmg.cards" className="text-cyan-400 hover:underline">
+              support@mail.pmg.cards
             </a>
             .
           </p>
